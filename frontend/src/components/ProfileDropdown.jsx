@@ -87,7 +87,7 @@ export const ProfileDropdown = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="text-gray-600 hover:text-gray-800 font-medium focus:outline-none"
+        className="text-white/90 hover:text-white font-medium focus:outline-none transition-colors"
       >
         Profile
       </button>

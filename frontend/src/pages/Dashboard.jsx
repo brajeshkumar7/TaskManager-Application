@@ -31,21 +31,23 @@ export const Dashboard = () => {
   const { tasks, isLoading } = getActiveTasks();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <nav className="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl font-bold text-gray-800">Task Manager</h1>
+            <h1 className="text-xl font-bold text-white tracking-tight">
+              Task Manager
+            </h1>
             <div className="flex items-center gap-4">
               <Link
                 to="/dashboard"
-                className="text-gray-600 hover:text-gray-800 font-medium"
+                className="text-white/80 hover:text-white font-medium transition-colors"
               >
                 Dashboard
               </Link>
               <Link
                 to="/tasks"
-                className="text-gray-600 hover:text-gray-800 font-medium"
+                className="text-white/80 hover:text-white font-medium transition-colors"
               >
                 All Tasks
               </Link>

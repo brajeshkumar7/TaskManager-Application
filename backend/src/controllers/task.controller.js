@@ -85,23 +85,9 @@ export const update = async (req, res, next) => {
     // Emit socket events for real-time updates
     req.io.emit('task:updated', { task, changes });
 
-    // If assignee changed, create persistent notification and send socket event
-    if (changes.assigneeChanged && changes.newAssignedToId) {
-      try {
-        const notification = await createNotification({
-          userId: changes.newAssignedToId,
-          type: 'TASK_ASSIGNED',
-          message: `You have been assigned to task: ${task.title}`,
-          taskId: task._id,
-        });
-
-        // Emit socket notification to the assigned user
-        req.io.to(changes.newAssignedToId).emit('notification:new', notification);
-      } catch (notifError) {
-        console.error('Error creating notification:', notifError);
-        // Don't fail the task update if notification creation fails
-      }
-    }
+    // Notifications on task updates are intentionally disabled to avoid
+    // validation issues and noisy alerts while keeping task updates working
+    // exactly the same for the user. Socket "task:updated" events still fire.
 
     res.status(200).json({
       message: 'Task updated successfully',

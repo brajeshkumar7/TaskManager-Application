@@ -68,7 +68,7 @@ export const NotificationBell = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+        className="relative p-2 text-white/90 hover:text-white focus:outline-none transition-colors"
       >
         <svg
           className="w-6 h-6"
