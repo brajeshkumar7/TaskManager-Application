@@ -1,34 +1,81 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { useAuthStore } from '../store/auth.store.js';
 import { useMyAssignedTasks, useMyCreatedTasks, useOverdueTasks } from '../hooks/useTasks.js';
+import { taskAPI } from '../api/task.api.js';
 import { TaskCard } from '../components/TaskCard.jsx';
 import { TaskCardSkeleton } from '../components/Loader.jsx';
+import { TaskForm } from '../components/TaskForm.jsx';
 import { NotificationBell } from '../components/NotificationBell.jsx';
 import { ProfileDropdown } from '../components/ProfileDropdown.jsx';
 
 export const Dashboard = () => {
   const { user } = useAuthStore();
   const [activeTab, setActiveTab] = useState('assigned');
+  const [showModal, setShowModal] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
 
-  const { tasks: assignedTasks, isLoading: assignedLoading } = useMyAssignedTasks();
-  const { tasks: createdTasks, isLoading: createdLoading } = useMyCreatedTasks();
-  const { tasks: overdueTasks, isLoading: overdueLoading } = useOverdueTasks();
+  const { tasks: assignedTasks, isLoading: assignedLoading, mutate: mutateAssigned } = useMyAssignedTasks();
+  const { tasks: createdTasks, isLoading: createdLoading, mutate: mutateCreated } = useMyCreatedTasks();
+  const { tasks: overdueTasks, isLoading: overdueLoading, mutate: mutateOverdue } = useOverdueTasks();
 
   const getActiveTasks = () => {
     switch (activeTab) {
       case 'assigned':
-        return { tasks: assignedTasks, isLoading: assignedLoading };
+        return { tasks: assignedTasks, isLoading: assignedLoading, mutate: mutateAssigned };
       case 'created':
-        return { tasks: createdTasks, isLoading: createdLoading };
+        return { tasks: createdTasks, isLoading: createdLoading, mutate: mutateCreated };
       case 'overdue':
-        return { tasks: overdueTasks, isLoading: overdueLoading };
+        return { tasks: overdueTasks, isLoading: overdueLoading, mutate: mutateOverdue };
       default:
-        return { tasks: [], isLoading: false };
+        return { tasks: [], isLoading: false, mutate: () => {} };
     }
   };
 
-  const { tasks, isLoading } = getActiveTasks();
+  const { tasks, isLoading, mutate } = getActiveTasks();
+
+  const handleEditTask = (task) => {
+    setEditingTask(task);
+    setShowModal(true);
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    if (!window.confirm('Are you sure you want to delete this task?')) {
+      return;
+    }
+
+    try {
+      await taskAPI.delete(taskId);
+      toast.success('Task deleted successfully');
+      // Refresh all tabs to keep counts accurate
+      mutateAssigned();
+      mutateCreated();
+      mutateOverdue();
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Failed to delete task');
+    }
+  };
+
+  const handleSubmitTask = async (data) => {
+    try {
+      if (editingTask) {
+        await taskAPI.update(editingTask._id, data);
+        toast.success('Task updated successfully');
+      } else {
+        await taskAPI.create(data);
+        toast.success('Task created successfully');
+      }
+      setShowModal(false);
+      setEditingTask(null);
+      // Refresh all tabs to keep counts accurate
+      mutateAssigned();
+      mutateCreated();
+      mutateOverdue();
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Failed to save task');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -121,11 +168,45 @@ export const Dashboard = () => {
             </div>
           ) : (
             tasks.map((task) => (
-              <TaskCard key={task._id} task={task} />
+              <TaskCard 
+                key={task._id} 
+                task={task}
+                onEdit={handleEditTask}
+                onDelete={handleDeleteTask}
+              />
             ))
           )}
         </div>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-800">
+                {editingTask ? 'Edit Task' : 'Create Task'}
+              </h3>
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  setEditingTask(null);
+                }}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+            <TaskForm
+              task={editingTask}
+              onSubmit={handleSubmitTask}
+              onCancel={() => {
+                setShowModal(false);
+                setEditingTask(null);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
