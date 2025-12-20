@@ -6,7 +6,7 @@ A full-stack, production-ready collaborative task management application built w
 
 The application is live and deployed on Render:
 
-**🔗 [Live Application](https://taskmanager-application-irhj.onrender.com/dashboard)**
+**🔗 [Live Application](https://taskmanager-application-irhj.onrender.com/)**
 
 Both frontend and backend are deployed on Render's free tier. You can access the application and test all features including authentication, task management, and dashboard functionality.
 
@@ -368,7 +368,7 @@ The test suite includes:
 
 The application is currently deployed on **Render** (free tier) with both frontend and backend services running on the platform.
 
-**Live Application**: [https://taskmanager-application-irhj.onrender.com/dashboard](https://taskmanager-application-irhj.onrender.com/dashboard)
+**Live Application**: [https://taskmanager-application-irhj.onrender.com/dashboard](https://taskmanager-application-irhj.onrender.com/)
 
 ### Backend Deployment (Render)
 1. Set environment variables in production
@@ -461,7 +461,5 @@ Built as a production-ready collaborative task management solution.
 ---
 
 ## ⚠️ Important Notes
-
-**Production Deployment Note**: Make sure to change the `JWT_SECRET` in production and use a secure MongoDB connection string.
 
 **Render Free Tier Limitation**: I am using the free service of Render, so there is high latency in request sending and getting responses back. Due to this, the real-time updates and notifications are not working in real-time on the deployed version - they are working but with some delay. For demonstration purposes, I have attached screenshots showing these features working properly while the application was running on my local machine, where real-time functionality works without any delays.
