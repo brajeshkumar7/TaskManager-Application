@@ -2,6 +2,14 @@
 
 A full-stack, production-ready collaborative task management application built with Node.js, Express, MongoDB, React, and Socket.io for real-time collaboration.
 
+## 🌐 Live Demo
+
+The application is live and deployed on Render:
+
+**🔗 [Live Application](https://taskmanager-application-irhj.onrender.com/dashboard)**
+
+Both frontend and backend are deployed on Render's free tier. You can access the application and test all features including authentication, task management, and dashboard functionality.
+
 ## 🚀 Features
 
 ### Authentication & Authorization
@@ -10,6 +18,9 @@ A full-stack, production-ready collaborative task management application built w
 - Password hashing with bcrypt
 - Protected routes with middleware
 - User profile management
+
+![Login Page](screenshots/login.png)
+*Login page showing authentication interface*
 
 ### Task Management (Full CRUD)
 - Create, read, update, and delete tasks
@@ -29,6 +40,12 @@ A full-stack, production-ready collaborative task management application built w
   - Deleted
 - Instant notifications when tasks are assigned to users
 - Socket authentication with JWT
+
+![Dashboard with Notification Toast](screenshots/notification-toast.png)
+*Real-time notification toast when a task is assigned to you*
+
+![Notification Popup](screenshots/notification-popup.png)
+*Notification popup showing task assignment notifications with bell icon indicator*
 
 ### Dashboard & Data Exploration
 - Tasks assigned to logged-in user
@@ -346,16 +363,20 @@ The test suite includes:
 
 ## 🚢 Deployment
 
-### Backend
-1. Set environment variables in production
-2. Use process manager (PM2) or containerization
-3. Configure MongoDB Atlas or production MongoDB instance
-4. Set secure JWT_SECRET
+The application is currently deployed on **Render** (free tier) with both frontend and backend services running on the platform.
 
-### Frontend
+**Live Application**: [https://taskmanager-application-irhj.onrender.com/dashboard](https://taskmanager-application-irhj.onrender.com/dashboard)
+
+### Backend Deployment (Render)
+1. Set environment variables in production
+2. Configure MongoDB Atlas or production MongoDB instance
+3. Set secure JWT_SECRET
+4. Deploy Node.js/Express service on Render
+
+### Frontend Deployment (Render)
 1. Build for production: `npm run build`
-2. Serve `dist/` folder with static file server
-3. Configure API and Socket.io URLs for production
+2. Configure API and Socket.io URLs for production
+3. Deploy static site or Node.js service on Render
 
 ### Docker (Optional)
 Create `docker-compose.yml` for easy deployment:
@@ -436,4 +457,8 @@ Built as a production-ready collaborative task management solution.
 
 ---
 
-**Note**: Make sure to change the `JWT_SECRET` in production and use a secure MongoDB connection string.
+## ⚠️ Important Notes
+
+**Production Deployment Note**: Make sure to change the `JWT_SECRET` in production and use a secure MongoDB connection string.
+
+**Render Free Tier Limitation**: I am using the free service of Render, so there is high latency in request sending and getting responses back. Due to this, the real-time updates and notifications are not working in real-time on the deployed version - they are working but with some delay. For demonstration purposes, I have attached screenshots showing these features working properly while the application was running on my local machine, where real-time functionality works without any delays.
