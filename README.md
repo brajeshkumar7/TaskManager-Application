@@ -19,7 +19,7 @@ Both frontend and backend are deployed on Render's free tier. You can access the
 - Protected routes with middleware
 - User profile management
 
-![Login Page](screenshots/login.png)
+![Login Page](./screenshots/login.png)
 *Login page showing authentication interface*
 
 ### Task Management (Full CRUD)
@@ -41,10 +41,10 @@ Both frontend and backend are deployed on Render's free tier. You can access the
 - Instant notifications when tasks are assigned to users
 - Socket authentication with JWT
 
-![Dashboard with Notification Toast](screenshots/notification-toast.png)
+![Dashboard with Notification Toast](./screenshots/notification-toast.png)
 *Real-time notification toast when a task is assigned to you*
 
-![Notification Popup](screenshots/notification-popup.png)
+![Notification Popup](./screenshots/notification-popup.png)
 *Notification popup showing task assignment notifications with bell icon indicator*
 
 ### Dashboard & Data Exploration
